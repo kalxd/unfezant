@@ -1,12 +1,11 @@
 module Main
 
-%foreign "browser:support:new_application,pixi"
-primCreateApplication : PrimIO AnyPtr
-
-%foreign "browser:lambda:console.log"
-primConsoleLog : AnyPtr -> PrimIO ()
+import Unfezant.FFI.Browser
+import Unfezant.FFI.Pixi
 
 main : IO ()
 main = do
-    ptr <- primIO $ primCreateApplication
-    primIO $ primConsoleLog ptr
+    body <- getDomBody
+    app <- mkApplication
+    let canvas = getApplicationCanvas app
+    domBodyAppendChild body canvas

@@ -7,5 +7,9 @@ main : IO ()
 main = do
     body <- getDomBody
     consoleLog body
-    let canvas = getApplicationCanvas app
-    domBodyAppendChild body canvas
+    let p1 = the (PromiseT Void IO Nat) $ mkPromise $ pure 1
+    let p2 = thenPromise p1 $ \v => mkPromise $ pure $ v + 1
+    consoleLog p2
+    runPromise p2 consoleLog
+    -- let canvas = getApplicationCanvas app
+    -- domBodyAppendChild body canvas

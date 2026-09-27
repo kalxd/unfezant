@@ -8,31 +8,29 @@ record DomCanvas where
     ptr : AnyPtr
 
 export
-record DomBody where
-    constructor MkDomBody
-    ptr : AnyPtr
+data DomBody : Type where
 
 namespace Binding
     export
     %foreign "browser:lambda:() => document.body"
-    getDomBody : PrimIO AnyPtr
+    getDomBody : PrimIO DomBody
 
 export
 getDomBody : HasIO io => io DomBody
-getDomBody = MkDomBody <$> (primIO $ Binding.getDomBody)
+getDomBody = primIO $ Binding.getDomBody
 
 namespace Binding
     export
     %foreign "browser:lambda:(body, canvas) => body.appendChild(canvas)"
-    domBodyAppendChild : AnyPtr -> AnyPtr -> PrimIO ()
+    domBodyAppendChild : DomBody -> AnyPtr -> PrimIO ()
 
 export
 domBodyAppendChild : HasIO io => DomBody -> DomCanvas -> io ()
-domBodyAppendChild (MkDomBody ptr) (MkDomCanvas x) = primIO $ Binding.domBodyAppendChild ptr x
+domBodyAppendChild body (MkDomCanvas x) = primIO $ Binding.domBodyAppendChild body x
 
 namespace Binding
     export
-    %foreign "browser:lambda:console.log"
+    %foreign "browser:lambda:(a, args) => console.log(args)"
     consoleLog : a -> PrimIO ()
 
 export

@@ -6,6 +6,6 @@ import Unfezant.FFI.Pixi
 main : IO ()
 main = do
     body <- getDomBody
-    app <- mkApplication
+    consoleLog body
     let canvas = getApplicationCanvas app
     domBodyAppendChild body canvas

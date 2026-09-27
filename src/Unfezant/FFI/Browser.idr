@@ -3,9 +3,7 @@ module Unfezant.FFI.Browser
 %default total
 
 public export
-record DomCanvas where
-    constructor MkDomCanvas
-    ptr : AnyPtr
+data DomCanvas : Type where
 
 export
 data DomBody : Type where
@@ -15,18 +13,18 @@ namespace Binding
     %foreign "browser:lambda:() => document.body"
     getDomBody : PrimIO DomBody
 
-export
+export %inline
 getDomBody : HasIO io => io DomBody
 getDomBody = primIO $ Binding.getDomBody
 
 namespace Binding
     export
     %foreign "browser:lambda:(body, canvas) => body.appendChild(canvas)"
-    domBodyAppendChild : DomBody -> AnyPtr -> PrimIO ()
+    domBodyAppendChild : DomBody -> DomCanvas -> PrimIO ()
 
 export
 domBodyAppendChild : HasIO io => DomBody -> DomCanvas -> io ()
-domBodyAppendChild body (MkDomCanvas x) = primIO $ Binding.domBodyAppendChild body x
+domBodyAppendChild body canvas = primIO $ Binding.domBodyAppendChild body canvas
 
 
 -- | 不过是另一种EitherT。

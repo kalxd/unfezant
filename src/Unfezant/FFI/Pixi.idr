@@ -5,24 +5,22 @@ import Unfezant.FFI.Browser
 %default total
 
 export
-record Application where
-    constructor MkApplication
-    ptr : AnyPtr
+data Application : Type where
 
 namespace Binding
     export
     %foreign "browser:support:new_application,pixi"
-    newApplication : PrimIO AnyPtr
+    newApplication : PrimIO Application
 
 export
 mkApplication : HasIO io => io Application
-mkApplication = MkApplication <$> (primIO $ Binding.newApplication)
+mkApplication = primIO $ Binding.newApplication
 
 namespace Binding
     export
     %foreign "browser:lambda:(app) => app.canvas"
-    getApplicationCanvas : AnyPtr -> AnyPtr
+    getApplicationCanvas : Application -> DomCanvas
 
 export
 getApplicationCanvas : Application -> DomCanvas
-getApplicationCanvas (MkApplication ptr) = MkDomCanvas $ Binding.getApplicationCanvas ptr
+getApplicationCanvas = Binding.getApplicationCanvas

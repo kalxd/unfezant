@@ -4,7 +4,10 @@ import Unfezant.FFI.Browser
 import Unfezant.FFI.Pixi
 
 initValue : Promise Nat
-initValue = pure 1
+initValue = do
+    n <- pure 1
+    liftIO $ consoleLog "hello world"
+    pure n
 
 main : IO ()
 main = do

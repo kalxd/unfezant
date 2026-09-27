@@ -39,7 +39,7 @@ namespace Binding
     promiseRun : (a -> PrimIO ()) -> Promise a -> PrimIO ()
 
     export
-    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x.value).then(y => ({ value: y})))"
+    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x.value).then(y => ({ value: y.value})))"
     promiseFlatMap : (a -> Promise b) -> Promise a -> Promise b
 
 export
@@ -60,16 +60,12 @@ Monad Promise where
     ma >>= f = Binding.promiseFlatMap f ma
 
 export
-mkPromise : IO a -> Promise a
-mkPromise action = Binding.promiseNew $ toPrim action
+HasIO Promise where
+    liftIO a = Binding.promiseNew $ toPrim a
 
 export
 runPromise : (a -> IO ()) -> Promise a -> IO ()
 runPromise f = primIO . Binding.promiseRun (\a => toPrim $ f a)
-
-export
-thenPromise : (a -> Promise b) -> Promise a -> Promise b
-thenPromise = Binding.promiseFlatMap
 
 namespace Binding
     export

@@ -27,37 +27,33 @@ domBodyAppendChild : HasIO io => DomBody -> DomCanvas -> io ()
 domBodyAppendChild body canvas = primIO $ Binding.domBodyAppendChild body canvas
 
 
--- | 不过是另一种EitherT。
 export
-data PromiseT : Type -> (Type -> Type) -> Type -> Type where
+data Promise : Type -> Type where
 
 namespace Binding
     export
-    %foreign "browser:lambda:(a, e, m, f) => new Promise(ok => { const v = f(); console.log(v); return ok(v); })"
-    promiseNew : PrimIO a -> PromiseT e m a
+    %foreign "browser:lambda:(a, f) => new Promise(ok => ok({ value: f() }))"
+    promiseNew : PrimIO a -> Promise a
 
     export
-    %foreign "browser:lambda:(e, m, a, b, p, f) => p.then(f)"
-    promiseThen : PromiseT e m a -> (a -> PromiseT e m b) -> PromiseT e m b
+    %foreign "browser:lambda:(a, f, p) => p.then(x => { f(x.value)(); })"
+    promiseRun : (a -> PrimIO ()) -> Promise a -> PrimIO ()
 
     export
-    %foreign "browser:lambda:(e, m, a, p, f) => p.then(f)"
-    promiseRun : PromiseT e m a -> (a -> PrimIO ()) -> PrimIO ()
+    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x.value).then(y => ({ value: y})))"
+    promiseFlatMap : (a -> Promise b) -> Promise a -> Promise b
 
 export
-mkPromise : IO a -> PromiseT e m a
+mkPromise : IO a -> Promise a
 mkPromise action = Binding.promiseNew $ toPrim action
 
 export
-thenPromise : PromiseT e m a -> (a -> PromiseT e m b) -> PromiseT e m b
-thenPromise = Binding.promiseThen
+runPromise : (a -> IO ()) -> Promise a -> IO ()
+runPromise f = primIO . Binding.promiseRun (\a => toPrim $ f a)
 
 export
-runPromise : PromiseT e m a -> (a -> IO ()) -> IO ()
-runPromise p f = primIO $ Binding.promiseRun p $ \a => toPrim $ f a
-
-Functor (PromiseT e m) where
-    map f p = thenPromise p (\a => mkPromise $ pure $ f a)
+thenPromise : (a -> Promise b) -> Promise a -> Promise b
+thenPromise = Binding.promiseFlatMap
 
 namespace Binding
     export

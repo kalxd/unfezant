@@ -3,17 +3,13 @@ module Main
 import Unfezant.FFI.Browser
 import Unfezant.FFI.Pixi
 
-initValue : Promise Nat
-initValue = do
-    n <- pure 1
-    liftIO $ consoleLog "hello world"
-    pure n
+initWindow : Promise ()
+initWindow = do
+    win <- liftIO getDomWindow
+    body <- liftIO getDomBody
+    app <- liftIO mkApplication
+    initApplication app win
+    liftIO $ domBodyAppendChild body $ getApplicationCanvas app
 
 main : IO ()
-main = do
-    body <- getDomBody
-    consoleLog body
-    let p2 = do
-        n <- initValue
-        pure $ n + 2
-    runPromise consoleLog p2
+main = runPromise (\_ => pure ()) initWindow

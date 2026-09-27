@@ -2,25 +2,39 @@ module Unfezant.FFI.Browser
 
 %default total
 
-public export
+export
 data DomCanvas : Type where
 
 export
 data DomBody : Type where
+
+export
+data DomWindow : Type where
+
+namespace Binding
+    export
+    %foreign "browser:lambda:() => window"
+    getDomWindow : PrimIO DomWindow
 
 namespace Binding
     export
     %foreign "browser:lambda:() => document.body"
     getDomBody : PrimIO DomBody
 
-export %inline
-getDomBody : HasIO io => io DomBody
-getDomBody = primIO $ Binding.getDomBody
-
 namespace Binding
     export
     %foreign "browser:lambda:(body, canvas) => body.appendChild(canvas)"
     domBodyAppendChild : DomBody -> DomCanvas -> PrimIO ()
+
+%inline
+export
+getDomWindow : HasIO io => io DomWindow
+getDomWindow = primIO $ Binding.getDomWindow
+
+%inline
+export
+getDomBody : HasIO io => io DomBody
+getDomBody = primIO $ Binding.getDomBody
 
 export
 domBodyAppendChild : HasIO io => DomBody -> DomCanvas -> io ()
@@ -39,7 +53,7 @@ namespace Binding
     promiseRun : (a -> PrimIO ()) -> Promise a -> PrimIO ()
 
     export
-    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x.value).then(y => ({ value: y.value})))"
+    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x?.value).then(y => ({ value: y.value})))"
     promiseFlatMap : (a -> Promise b) -> Promise a -> Promise b
 
 export

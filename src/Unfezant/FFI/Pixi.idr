@@ -10,17 +10,25 @@ data Application : Type where
 namespace Binding
     export
     %foreign "browser:support:new_application,pixi"
-    newApplication : PrimIO Application
+    ffiApplicationNew : PrimIO Application
+
+    export
+    %foreign "browser:support:init_application,pixi"
+    ffiApplicationInit : Application -> DomWindow -> Promise ()
 
 export
 mkApplication : HasIO io => io Application
-mkApplication = primIO $ Binding.newApplication
+mkApplication = primIO $ Binding.ffiApplicationNew
+
+export
+initApplication : Application -> DomWindow -> Promise()
+initApplication = Binding.ffiApplicationInit
 
 namespace Binding
     export
     %foreign "browser:lambda:(app) => app.canvas"
-    getApplicationCanvas : Application -> DomCanvas
+    ffiApplicationCanvas : Application -> DomCanvas
 
 export
 getApplicationCanvas : Application -> DomCanvas
-getApplicationCanvas = Binding.getApplicationCanvas
+getApplicationCanvas = Binding.ffiApplicationCanvas

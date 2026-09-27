@@ -26,7 +26,6 @@ export
 domBodyAppendChild : HasIO io => DomBody -> DomCanvas -> io ()
 domBodyAppendChild body canvas = primIO $ Binding.domBodyAppendChild body canvas
 
-
 export
 data Promise : Type -> Type where
 
@@ -42,6 +41,23 @@ namespace Binding
     export
     %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x.value).then(y => ({ value: y})))"
     promiseFlatMap : (a -> Promise b) -> Promise a -> Promise b
+
+export
+Functor Promise where
+    map f = Binding.promiseFlatMap g
+        where g : a -> Promise b
+              g = Binding.promiseNew . prim__io_pure . f
+
+export
+Applicative Promise where
+    pure = Binding.promiseNew . prim__io_pure
+    mf <*> my = Binding.promiseFlatMap fx my
+        where fx : a -> Promise b
+              fx x = Binding.promiseFlatMap (\f => pure $ f x) mf
+
+export
+Monad Promise where
+    ma >>= f = Binding.promiseFlatMap f ma
 
 export
 mkPromise : IO a -> Promise a

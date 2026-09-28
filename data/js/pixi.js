@@ -6,3 +6,7 @@ const pixi_init_application = (app, win) => {
 	return app.init({ resizeTo: win })
 		.then(_ => ({ value: undefined }));
 };
+
+const pixi_application_add_ticker = (f, app) => {
+	app.ticker.add(f);
+};

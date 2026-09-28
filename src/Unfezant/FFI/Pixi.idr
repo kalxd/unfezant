@@ -7,6 +7,9 @@ import Unfezant.FFI.Browser
 export
 data Application : Type where
 
+export
+data Ticker : Type where
+
 namespace Binding
     export
     %foreign "browser:support:new_application,pixi"
@@ -21,7 +24,7 @@ mkApplication : HasIO io => io Application
 mkApplication = primIO $ Binding.ffiApplicationNew
 
 export
-initApplication : Application -> DomWindow -> Promise()
+initApplication : Application -> DomWindow -> Promise ()
 initApplication = Binding.ffiApplicationInit
 
 namespace Binding
@@ -29,6 +32,16 @@ namespace Binding
     %foreign "browser:lambda:(app) => app.canvas"
     ffiApplicationCanvas : Application -> DomCanvas
 
+    export
+    %foreign "browser:support:application_add_ticker,pixi"
+    ffiApplicationAddTicker : (Ticker -> PrimIO ()) -> Application -> PrimIO ()
+
 export
 getApplicationCanvas : Application -> DomCanvas
 getApplicationCanvas = Binding.ffiApplicationCanvas
+
+export
+applicationAddTicker : HasIO io => (Ticker -> IO ()) -> Application -> io ()
+applicationAddTicker f = liftIO . primIO . Binding.ffiApplicationAddTicker g
+    where g : Ticker -> PrimIO ()
+          g ticker = toPrim $ f ticker

@@ -5,11 +5,11 @@ import Unfezant.FFI.Pixi
 
 initWindow : Promise ()
 initWindow = do
-    win <- liftIO getDomWindow
-    body <- liftIO getDomBody
-    app <- liftIO mkApplication
+    win <- getDomWindow
+    body <- getDomBody
+    app <- mkApplication
     initApplication app win
-    liftIO $ domBodyAppendChild body $ getApplicationCanvas app
+    domBodyAppendChild body $ getApplicationCanvas app
 
 main : IO ()
 main = runPromise (\_ => pure ()) initWindow

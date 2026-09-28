@@ -10,6 +10,9 @@ data Application : Type where
 export
 data Ticker : Type where
 
+export
+data Graphics : Type where
+
 namespace Binding
     export
     %foreign "browser:support:new_application,pixi"

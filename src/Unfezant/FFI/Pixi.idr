@@ -37,11 +37,20 @@ namespace Binding
     ffiApplicationAddTicker : (Ticker -> PrimIO ()) -> Application -> PrimIO ()
 
 export
-getApplicationCanvas : Application -> DomCanvas
-getApplicationCanvas = Binding.ffiApplicationCanvas
+(.canvas) : Application -> DomCanvas
+(.canvas) = Binding.ffiApplicationCanvas
 
 export
-applicationAddTicker : HasIO io => (Ticker -> IO ()) -> Application -> io ()
-applicationAddTicker f = liftIO . primIO . Binding.ffiApplicationAddTicker g
+addTicker : HasIO io => (Ticker -> IO ()) -> Application -> io ()
+addTicker f = primIO . Binding.ffiApplicationAddTicker g
     where g : Ticker -> PrimIO ()
           g ticker = toPrim $ f ticker
+
+namespace Binding
+    export
+    %foreign "browser:lambda:(ticker) => ticker.deltaTime"
+    ffiTickerDeltaTime : Ticker -> Double
+
+export
+(.deltaTime) : Ticker -> Double
+(.deltaTime) = Binding.ffiTickerDeltaTime

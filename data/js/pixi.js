@@ -8,5 +8,5 @@ const pixi_init_application = (app, win) => {
 };
 
 const pixi_application_add_ticker = (f, app) => {
-	app.ticker.add(f);
+	app.ticker.add(ticker => f(ticker)());
 };

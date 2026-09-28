@@ -53,7 +53,7 @@ namespace Binding
     promiseRun : (a -> PrimIO ()) -> Promise a -> PrimIO ()
 
     export
-    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x?.value).then(y => ({ value: y.value})))"
+    %foreign "browser:lambda:(a, b, f, p) => p.then(x => f(x.value).then(y => ({ value: y.value})))"
     promiseFlatMap : (a -> Promise b) -> Promise a -> Promise b
 
 export

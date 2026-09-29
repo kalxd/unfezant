@@ -9,7 +9,7 @@ initWindow = do
     body <- getDomBody
     app <- mkApplication
     initApplication app win
-    domBodyAppendChild body app.canvas
+    body.appendChild app.canvas
     addTicker (\ticker => consoleLog $ ticker.deltaTime) app
 
 main : IO ()

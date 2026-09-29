@@ -37,8 +37,8 @@ getDomBody : HasIO io => io DomBody
 getDomBody = primIO $ Binding.getDomBody
 
 export
-domBodyAppendChild : HasIO io => DomBody -> DomCanvas -> io ()
-domBodyAppendChild body canvas = primIO $ Binding.domBodyAppendChild body canvas
+(.appendChild) : HasIO io => DomBody -> DomCanvas -> io ()
+(.appendChild) body canvas = primIO $ Binding.domBodyAppendChild body canvas
 
 export
 data Promise : Type -> Type where

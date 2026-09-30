@@ -34,10 +34,3 @@ export
 %inline
 (.appendChild) : HasIO io => DomBody -> DomCanvas -> io ()
 (.appendChild) body = primIO . ffi_appendChild body
-
-%foreign "browser:lambda:(a, args) => console.log(args)"
-ffi_consoleLog : a -> PrimIO ()
-
-export
-consoleLog : HasIO io => a -> io ()
-consoleLog = primIO . ffi_consoleLog

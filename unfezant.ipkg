@@ -17,8 +17,10 @@ authors = "XG.Ley"
 
 -- modules to install
 modules = Unfezant.FFI.Promise
+        , Unfezant.FFI.Eff
         , Unfezant.FFI.Dom
         , Unfezant.FFI.Pixi
+        , Unfezant.FFI
 
 -- main file (i.e. file to load at REPL)
 main = Main

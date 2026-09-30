@@ -16,7 +16,8 @@ authors = "XG.Ley"
 -- depends =
 
 -- modules to install
-modules = Unfezant.FFI.Browser
+modules = Unfezant.FFI.Promise
+        , Unfezant.FFI.Dom
         , Unfezant.FFI.Pixi
 
 -- main file (i.e. file to load at REPL)

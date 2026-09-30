@@ -1,6 +1,7 @@
 module Unfezant.FFI.Pixi
 
-import Unfezant.FFI.Browser
+import Unfezant.FFI.Dom
+import Unfezant.FFI.Promise
 
 %default total
 

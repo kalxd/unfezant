@@ -1,7 +1,8 @@
 module Main
 
-import Unfezant.FFI.Browser
+import Unfezant.FFI.Dom
 import Unfezant.FFI.Pixi
+import Unfezant.FFI.Promise
 
 initWindow : Promise ()
 initWindow = do

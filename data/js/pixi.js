@@ -12,5 +12,8 @@ const pixi_application_add_ticker = (f, app) => {
 };
 
 /** graphics */
-const pixi_new_graphics = () => new Graphics();
+const pixi_new_graphics = () => {
+	console.log("do create?");
+	return new Graphics();
+};
 /** end graphics */

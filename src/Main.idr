@@ -9,10 +9,12 @@ initWindow = do
     app <- mkApplication
     app.init win
     body.appendChild app.canvas
-    g <- mkGraphics
-    _ <- setRect (10.0, 10.0, 200.0, 200.0) g
-    _ <- setFill "0x00FFFF" g
-    app.stage.addChild g
+    -- _ <- pure newGraphicsRef
+    pure ()
+    -- g <- mkGraphics
+    -- _ <- setRect (10.0, 10.0, 200.0, 200.0) g
+    -- _ <- setFill "0x00FFFF" g
+    -- app.stage.addChild g
     -- addTicker (\ticker => consoleLog ticker.deltaTime) app
 
 main : IO ()

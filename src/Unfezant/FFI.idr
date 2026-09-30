@@ -6,3 +6,4 @@ import public Unfezant.FFI.Dom
 
 import public Unfezant.FFI.Application
 import public Unfezant.FFI.Ticker
+import public Unfezant.FFI.Graphics

@@ -9,7 +9,7 @@ initWindow = do
     app <- mkApplication
     app.init win
     body.appendChild app.canvas
-    -- _ <- pure newGraphicsRef
+    _ <- mkGraphics
     pure ()
     -- g <- mkGraphics
     -- _ <- setRect (10.0, 10.0, 200.0, 200.0) g

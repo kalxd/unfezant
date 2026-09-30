@@ -16,5 +16,9 @@ data GraphicsRef : (s : Type) -> Type where
     MkGraphicsRef : STRef s Graphics -> GraphicsRef s
 
 export
+mkGraphics : HasIO io => io Graphics
+mkGraphics = primIO $ ffi_graphicsNew
+
+export
 newGraphicsRef : ST s (GraphicsRef s)
 newGraphicsRef = MkGraphicsRef <$> (newSTRef $ unsafePerformIO $ primIO ffi_graphicsNew)

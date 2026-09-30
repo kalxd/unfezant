@@ -19,6 +19,10 @@ authors = "XG.Ley"
 modules = Unfezant.FFI.Promise
         , Unfezant.FFI.Eff
         , Unfezant.FFI.Dom
+        , Unfezant.FFI.Application
+        , Unfezant.FFI.Ticker
+        , Unfezant.FFI.Container
+        , Unfezant.FFI.Graphics
         , Unfezant.FFI.Pixi
         , Unfezant.FFI
 

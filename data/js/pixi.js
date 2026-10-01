@@ -7,10 +7,6 @@ const pixi_init_application = (app, win) => {
 		.then(_ => ({ value: undefined }));
 };
 
-const pixi_application_add_ticker = (f, app) => {
-	app.ticker.add(ticker => f(ticker)());
-};
-
 /** graphics */
 const pixi_new_graphics = () => {
 	console.log("do create?");

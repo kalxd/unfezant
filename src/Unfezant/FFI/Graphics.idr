@@ -11,14 +11,28 @@ ffi_graphicsNew : PrimIO Graphics
 %foreign "browser:lambda:(g, x, y, w, h) => g.rect(x, y, w, h)"
 ffi_graphicsSetRect : Graphics -> Double -> Double -> Double -> Double -> PrimIO Graphics
 
-export
-data GraphicsRef : (s : Type) -> Type where
-    MkGraphicsRef : STRef s Graphics -> GraphicsRef s
+%foreign "browser:lambda:(g, color) => g.fill(color)"
+ffi_graphicsSetFill : Graphics -> String -> PrimIO Graphics
 
 export
-mkGraphics : HasIO io => io Graphics
-mkGraphics = primIO $ ffi_graphicsNew
+newGraphicsRef : ST s (STRef s Graphics)
+newGraphicsRef = newSTRef $ unsafePerformIO $ primIO ffi_graphicsNew
 
 export
-newGraphicsRef : ST s (GraphicsRef s)
-newGraphicsRef = MkGraphicsRef <$> (newSTRef $ unsafePerformIO $ primIO ffi_graphicsNew)
+setRect : (Double, Double, Double, Double) -> STRef s Graphics -> ST s ()
+setRect (x, y, w, h) ref = modifySTRef ref g
+    where g : Graphics -> Graphics
+          g graph = unsafePerformIO $ primIO $ ffi_graphicsSetRect graph x y w h
+
+export
+setFill : String -> STRef s Graphics -> ST s ()
+setFill color ref = modifySTRef ref k
+    where k : Graphics -> Graphics
+          k graph = unsafePerformIO $ primIO $ ffi_graphicsSetFill graph color
+
+export
+newGraphicsWith : (forall s. STRef s Graphics -> ST s ()) -> Graphics
+newGraphicsWith f = runST $ do
+    ref <- newGraphicsRef
+    f ref
+    readSTRef ref

@@ -1,6 +1,7 @@
 module Main
 
 import Unfezant.FFI
+import Control.Monad.ST
 
 initWindow : Promise ()
 initWindow = do
@@ -9,13 +10,13 @@ initWindow = do
     app <- mkApplication
     app.init win
     body.appendChild app.canvas
-    _ <- mkGraphics
-    pure ()
-    -- g <- mkGraphics
-    -- _ <- setRect (10.0, 10.0, 200.0, 200.0) g
-    -- _ <- setFill "0x00FFFF" g
-    -- app.stage.addChild g
-    -- addTicker (\ticker => consoleLog ticker.deltaTime) app
+    app.stage.addChild $ newGraphicsWith $ \ref => do
+        setRect (10.0, 10.0, 200.0, 200.0) ref
+        setFill "0x0000FF" ref
+    app.stage.addChild $ newGraphicsWith $ \ref => do
+        setRect (300, 10, 200, 200) ref
+        setFill "red" ref
+    app.ticker.add $ \_ => pure ()
 
 main : IO ()
 main = runPromise (\_ => pure ()) initWindow

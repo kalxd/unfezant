@@ -1,9 +1,9 @@
-module Unfezant.FFI.Application
+module Unfezant.Engine.Application
 
-import Unfezant.FFI.Dom
-import Unfezant.FFI.Promise
-import Unfezant.FFI.Container
-import Unfezant.FFI.Ticker
+import Unfezant.Engine.Dom
+import Unfezant.Engine.Promise
+import Unfezant.Engine.Container
+import Unfezant.Engine.Ticker
 
 export
 data Application : Type where

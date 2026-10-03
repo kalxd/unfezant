@@ -1,6 +1,6 @@
 module Main
 
-import Unfezant.FFI
+import Unfezant.Engine
 import Control.Monad.ST
 
 initWindow : Promise ()

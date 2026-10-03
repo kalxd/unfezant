@@ -1,4 +1,4 @@
-module Unfezant.FFI.Dom
+module Unfezant.Engine.Dom
 
 %default total
 

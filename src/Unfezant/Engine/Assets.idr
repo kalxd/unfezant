@@ -1,6 +1,6 @@
-module Unfezant.FFI.Assets
+module Unfezant.Engine.Assets
 
-import Unfezant.FFI.Promise
+import Unfezant.Engine.Promise
 
 %foreign "browser:support:assets_load,pixi"
 ffi_assetsLoad : a -> Promise a

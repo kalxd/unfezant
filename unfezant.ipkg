@@ -16,16 +16,17 @@ authors = "XG.Ley"
 -- depends =
 
 -- modules to install
-modules = Unfezant.FFI.Promise
-        , Unfezant.FFI.Eff
-        , Unfezant.FFI.Dom
-        , Unfezant.FFI.Application
-        , Unfezant.FFI.Ticker
-        , Unfezant.FFI.Container
-        , Unfezant.FFI.Graphics
-        , Unfezant.FFI.Assets
-        , Unfezant.FFI.Sprite
-        , Unfezant.FFI
+modules = Unfezant.Engine.Promise
+        , Unfezant.Engine.Eff
+        , Unfezant.Engine.Dom
+        , Unfezant.Engine.Application
+        , Unfezant.Engine.Ticker
+        , Unfezant.Engine.Container
+        , Unfezant.Engine.Graphics
+        , Unfezant.Engine.Assets
+        , Unfezant.Engine.Sprite
+        , Unfezant.Engine.Color
+        , Unfezant.Engine
 
 -- main file (i.e. file to load at REPL)
 main = Main

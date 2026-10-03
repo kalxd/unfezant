@@ -1,4 +1,4 @@
-module Unfezant.FFI.Promise
+module Unfezant.Engine.Promise
 
 %default total
 

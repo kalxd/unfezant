@@ -1,4 +1,4 @@
-module Unfezant.FFI.Ticker
+module Unfezant.Engine.Ticker
 
 export
 data Ticker : Type where

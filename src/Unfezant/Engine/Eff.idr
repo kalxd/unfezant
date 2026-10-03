@@ -1,4 +1,4 @@
-module Unfezant.FFI.Eff
+module Unfezant.Engine.Eff
 
 %foreign "browser:lambda:(a, args) => console.log(args)"
 ffi_consoleLog : a -> PrimIO ()

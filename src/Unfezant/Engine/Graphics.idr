@@ -1,4 +1,4 @@
-module Unfezant.FFI.Graphics
+module Unfezant.Engine.Graphics
 
 import Control.Monad.ST
 

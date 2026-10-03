@@ -4,6 +4,7 @@ import Unfezant.Engine.Dom
 import Unfezant.Engine.Promise
 import Unfezant.Engine.Container
 import Unfezant.Engine.Ticker
+import Unfezant.Engine.Rectangle
 
 export
 data Application : Type where
@@ -34,6 +35,14 @@ export
 export
 (.canvas) : Application -> DomCanvas
 (.canvas) = ffi_applicationCanvas
+
+%foreign "browser:lambda:(app) => app.screen"
+ffi_screen : Application -> PrimIO Rectangle
+
+%inline
+export
+(.screen) : HasIO io => Application -> io Rectangle
+(.screen) = primIO . ffi_screen
 
 export
 (.stage) : Application -> Container

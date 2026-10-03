@@ -15,8 +15,12 @@ ffi_runPromise : (a -> PrimIO ()) -> Promise a -> PrimIO ()
 ffi_thenPromise : (a -> Promise b) -> Promise a -> Promise b
 
 export
-runPromise : (a -> IO ()) -> Promise a -> IO ()
+runPromise : HasIO io => (a -> IO ()) -> Promise a -> io ()
 runPromise f = primIO . ffi_runPromise (\a => toPrim $ f a)
+
+export
+execPromise : HasIO io => Promise a -> io ()
+execPromise = runPromise $ \_ => pure ()
 
 export
 Functor Promise where

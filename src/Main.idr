@@ -2,6 +2,7 @@ module Main
 
 import Unfezant.Engine
 import Control.Monad.ST
+import Control.App
 
 initWindow : Promise ()
 initWindow = do
@@ -21,4 +22,4 @@ initWindow = do
     app.ticker.add $ \_ => pure ()
 
 main : IO ()
-main = runPromise (\_ => pure ()) initWindow
+main = execPromise initWindow

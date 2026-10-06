@@ -2,7 +2,6 @@ module Main
 
 import Unfezant.Engine
 import Control.Monad.ST
-import Control.App
 
 initWindow : Promise ()
 initWindow = do

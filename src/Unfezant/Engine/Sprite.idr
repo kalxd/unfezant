@@ -1,4 +1,4 @@
-module Unfezant.FFI.Sprite
+module Unfezant.Engine.Sprite
 
 export
 data Sprite : Type where

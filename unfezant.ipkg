@@ -17,7 +17,7 @@ authors = "XG.Ley"
 
 -- modules to install
 modules = Unfezant.Engine.Promise
-        , Unfezant.Engine.Eff
+        , Unfezant.Engine.JS
         , Unfezant.Engine.Dom
         , Unfezant.Engine.Application
         , Unfezant.Engine.Ticker

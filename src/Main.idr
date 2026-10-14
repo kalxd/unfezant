@@ -18,7 +18,8 @@ initWindow = do
         setRect (300, 10, 200, 200) ref
         setFill "red" ref
 
-    app.ticker.add $ \_ => pure ()
+    consoleLog $ the (Maybe String) Nothing
+    -- app.ticker.add $ \_ => pure ()
 
 main : IO ()
 main = execPromise initWindow

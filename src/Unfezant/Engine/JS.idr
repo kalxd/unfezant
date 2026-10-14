@@ -21,6 +21,10 @@ prim__setObjectValue : JsObject -> String -> a -> PrimIO JsObject
 setObjectValue : HasIO io => String -> a -> JsObject -> io JsObject
 setObjectValue key value o = primIO $ prim__setObjectValue o key value
 
+setObjectValue' : HasIO io => String -> Maybe a -> JsObject -> io JsObject
+setObjectValue' _ Nothing o = pure o
+setObjectValue' key (Just a) o = setObjectValue key a o
+
 export
 obj : (HasIO io, Monad io) => StateT JsObject io a -> io JsObject
 obj action = do

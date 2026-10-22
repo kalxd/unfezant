@@ -31,6 +31,22 @@ obj action = do
     init <- mkEmptyObject
     execStateT init action
 
+export infixr 9 :=!
+
+export
+(:=!) : HasIO io => String -> a -> StateT JsObject io ()
+key :=! value = do
+    o <- get
+    setObjectValue key value o
+
+export infixr 9 :=?
+
+export
+(:=?) : HasIO io => String -> Maybe a -> StateT JsObject io ()
+key :=? value = do
+    o <- get
+    setObjectValueWhen key value o
+
 %foreign "browser:lambda:(a, args) => console.log(args)"
 ffi_consoleLog : a -> PrimIO ()
 

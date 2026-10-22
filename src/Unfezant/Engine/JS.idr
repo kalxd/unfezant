@@ -15,15 +15,15 @@ prim__mkEmptyObj : PrimIO JsObject
 mkEmptyObject : HasIO io => io JsObject
 mkEmptyObject = primIO prim__mkEmptyObj
 
-%foreign "browser:lambda:(a, obj, key, value) => { obj[key] = value; return obj; }"
-prim__setObjectValue : JsObject -> String -> a -> PrimIO JsObject
+%foreign "browser:lambda:(a, obj, key, value) => { obj[key] = value; }"
+prim__setObjectValue : JsObject -> String -> a -> PrimIO ()
 
-setObjectValue : HasIO io => String -> a -> JsObject -> io JsObject
+setObjectValue : HasIO io => String -> a -> JsObject -> io ()
 setObjectValue key value o = primIO $ prim__setObjectValue o key value
 
-setObjectValue' : HasIO io => String -> Maybe a -> JsObject -> io JsObject
-setObjectValue' _ Nothing o = pure o
-setObjectValue' key (Just a) o = setObjectValue key a o
+setObjectValueWhen : HasIO io => String -> Maybe a -> JsObject -> io ()
+setObjectValueWhen _ Nothing _ = pure ()
+setObjectValueWhen key (Just a) o = setObjectValue key a o
 
 export
 obj : (HasIO io, Monad io) => StateT JsObject io a -> io JsObject

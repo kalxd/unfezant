@@ -19,12 +19,14 @@ authors = "XG.Ley"
 modules = Unfezant.Engine.Promise
         , Unfezant.Engine.JS
         , Unfezant.Engine.Dom
+        , Unfezant.Engine.ObservablePoint
         , Unfezant.Engine.Application
         , Unfezant.Engine.Ticker
         , Unfezant.Engine.Container
         , Unfezant.Engine.Graphics
-        , Unfezant.Engine.Assets
         , Unfezant.Engine.Sprite
+        , Unfezant.Engine.Texture
+        , Unfezant.Engine.Assets
         , Unfezant.Engine.Color
         , Unfezant.Engine.Rectangle
         , Unfezant.Engine

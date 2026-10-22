@@ -1,7 +1,6 @@
 module Main
 
 import Unfezant.Engine
-import Control.Monad.ST
 
 initWindow : Promise ()
 initWindow = do
@@ -9,19 +8,17 @@ initWindow = do
     body <- domBody
     app <- mkApplication
     let option : ApplicationOptions
-        option = MkApplicationOptions (Just "green") win
+        option = MkApplicationOptions (Just "#1099bb") win
     app.init option
     body.appendChild app.canvas
 
-    app.stage.addChild $ newGraphicsWith $ \ref => do
-        setRect (10.0, 10.0, 200.0, 200.0) ref
-        setFill "0x0000FF" ref
-    app.stage.addChild $ newGraphicsWith $ \ref => do
-        setRect (300, 10, 200, 200) ref
-        setFill "red" ref
+    texture <- loadTexture "https://pixijs.com/assets/bunny.png"
+    let bunny = mkSprint texture
+    app.stage.addChild bunny
+    bunny.anchor.set 0.5 0.5
 
-    consoleLog $ the (Maybe String) Nothing
-    -- app.ticker.add $ \_ => pure ()
+    setX (app.screen.width / 2) bunny
+    setY (app.screen.height / 2) bunny
 
 main : IO ()
 main = execPromise initWindow

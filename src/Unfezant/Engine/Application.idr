@@ -53,12 +53,12 @@ export
 (.canvas) = ffi_applicationCanvas
 
 %foreign "browser:lambda:(app) => app.screen"
-ffi_screen : Application -> PrimIO Rectangle
+ffi_screen : Application -> Rectangle
 
 %inline
 export
-(.screen) : HasIO io => Application -> io Rectangle
-(.screen) = primIO . ffi_screen
+(.screen) : Application -> Rectangle
+(.screen) = ffi_screen
 
 export
 (.stage) : Application -> Container

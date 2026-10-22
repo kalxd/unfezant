@@ -1,15 +1,16 @@
 import { Application, Graphics } from "pixi.js";
 
+/** Application */
 const pixi_new_application = () => new Application();
 
-const pixi_init_application = (app, win) => {
-	return app.init({ resizeTo: win })
+const pixi_init_application = (app, option) => {
+	return app.init(option)
 		.then(_ => ({ value: undefined }));
 };
+/** end Application */
 
-/** graphics */
+/** Graphics */
 const pixi_new_graphics = () => {
-	console.log("do create?");
 	return new Graphics();
 };
-/** end graphics */
+/** end Graphics */

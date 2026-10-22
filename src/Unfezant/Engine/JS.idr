@@ -4,10 +4,12 @@ import Control.Monad.State
 
 %default total
 
+export
 data JsObject : Type where
 
+public export
 interface ToJsObject a where
-    toJsObject : a -> JsObject
+    toJsObject : HasIO io => a -> io JsObject
 
 %foreign "browser:lambda:() => ({})"
 prim__mkEmptyObj : PrimIO JsObject
@@ -26,7 +28,7 @@ setObjectValueWhen _ Nothing _ = pure ()
 setObjectValueWhen key (Just a) o = setObjectValue key a o
 
 export
-obj : (HasIO io, Monad io) => StateT JsObject io a -> io JsObject
+obj : HasIO io => StateT JsObject io a -> io JsObject
 obj action = do
     init <- mkEmptyObject
     execStateT init action

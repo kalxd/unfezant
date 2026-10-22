@@ -8,7 +8,9 @@ initWindow = do
     win <- domWindow
     body <- domBody
     app <- mkApplication
-    app.init win
+    let option : ApplicationOptions
+        option = MkApplicationOptions (Just "green") win
+    app.init option
     body.appendChild app.canvas
 
     app.stage.addChild $ newGraphicsWith $ \ref => do

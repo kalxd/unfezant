@@ -1,19 +1,19 @@
 module Unfezant.Engine.Application
 
+import Unfezant.Engine.JS
 import Unfezant.Engine.Dom
 import Unfezant.Engine.Promise
 import Unfezant.Engine.Container
 import Unfezant.Engine.Ticker
 import Unfezant.Engine.Rectangle
 
+import Control.Monad.State
+
 export
 data Application : Type where
 
 %foreign "browser:support:new_application,pixi"
 ffi_applicationNew : PrimIO Application
-
-%foreign "browser:support:init_application,pixi"
-ffi_applicationInit : Application -> DomWindow -> Promise ()
 
 %foreign "browser:lambda:(app) => app.canvas"
 ffi_applicationCanvas : Application -> DomCanvas
@@ -28,9 +28,25 @@ export
 mkApplication : HasIO io => io Application
 mkApplication = primIO $ ffi_applicationNew
 
+public export
+record ApplicationOptions where
+    constructor MkApplicationOptions
+    backgroundColor: Maybe String
+    resizeTo: DomWindow
+
+ToJsObject ApplicationOptions where
+    toJsObject option = obj $ do
+        "backgroundColor" :=? option.backgroundColor
+        "resizeTo" :=! option.resizeTo
+
+%foreign "browser:support:init_application,pixi"
+prim_applicationInit : Application -> JsObject -> Promise ()
+
 export
-(.init) : Application -> DomWindow -> Promise ()
-(.init) = ffi_applicationInit
+(.init) : Application -> ApplicationOptions -> Promise ()
+(.init) app options = do
+    o <- toJsObject options
+    prim_applicationInit app o
 
 export
 (.canvas) : Application -> DomCanvas

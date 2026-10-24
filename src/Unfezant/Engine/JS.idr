@@ -4,6 +4,13 @@ import Control.Monad.State
 
 %default total
 
+%foreign "browser:Math.PI"
+prim__MathPi : Double
+
+export
+mathPI : Double
+mathPI = prim__MathPi
+
 export
 data JsObject : Type where
 

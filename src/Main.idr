@@ -20,5 +20,9 @@ initWindow = do
     bunny.setX $ app.screen.width / 2
     bunny.setY $ app.screen.height / 2
 
+    app.ticker.add $ \ticker => do
+        let r = bunny.rotation
+        bunny.setRotation $ r + 0.1 * ticker.deltaTime
+
 main : IO ()
 main = execPromise initWindow

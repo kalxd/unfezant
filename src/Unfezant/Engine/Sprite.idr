@@ -33,3 +33,17 @@ prim_setY : Sprite -> Double -> PrimIO ()
 export
 (.setY) : HasIO io => Sprite -> Double -> io ()
 (.setY) sprite y = primIO $ prim_setY sprite y
+
+%foreign "browser:lambda:(sprite) => sprite.rotation"
+prim__rotation : Sprite -> Double
+
+export
+(.rotation) : Sprite -> Double
+(.rotation) = prim__rotation
+
+%foreign "browser:lambda:(sprite, r) => sprite.rotation = r"
+prim__setRotation : Sprite -> Double -> PrimIO ()
+
+export
+(.setRotation) : HasIO io => Sprite -> Double -> io ()
+(.setRotation) sprite = primIO . prim__setRotation sprite

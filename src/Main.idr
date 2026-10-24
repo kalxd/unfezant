@@ -17,8 +17,8 @@ initWindow = do
     app.stage.addChild bunny
     bunny.anchor.set 0.5 0.5
 
-    setX (app.screen.width / 2) bunny
-    setY (app.screen.height / 2) bunny
+    bunny.setX $ app.screen.width / 2
+    bunny.setY $ app.screen.height / 2
 
 main : IO ()
 main = execPromise initWindow

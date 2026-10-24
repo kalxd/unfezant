@@ -24,12 +24,12 @@ export
 prim_setX : Sprite -> Double -> PrimIO ()
 
 export
-setX : HasIO io => Double -> Sprite -> io ()
-setX x sprite = primIO $ prim_setX sprite x
+(.setX) : HasIO io => Sprite -> Double -> io ()
+(.setX) sprite x = primIO $ prim_setX sprite x
 
 %foreign "browser:lambda:(sprite, y) => sprite.y = y"
 prim_setY : Sprite -> Double -> PrimIO ()
 
 export
-setY : HasIO io => Double -> Sprite -> io ()
-setY y sprite = primIO $ prim_setY sprite y
+(.setY) : HasIO io => Sprite -> Double -> io ()
+(.setY) sprite y = primIO $ prim_setY sprite y
